@@ -1,0 +1,30 @@
+name: CI - SQL
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+    - 'sql/*'
+  pull_request:
+    branches: [ main ]
+    paths:
+    - 'sql/*'
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install sqlite3
+      run: |
+        sudo apt-get install sqlite3
+        sqlite3 --version
+    - name: Test
+      working-directory: sql
+      run: |
+        for file in *.sql; do
+          echo -e "--> Testing $file ..."
+          cat $file | sqlite3 -echo -bail $file.db
+          if [[ ! -f $file.db || ! -s $file.db ]]; then  exit 1; fi
+          echo -e "--> OK!\n"
+        done
