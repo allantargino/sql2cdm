@@ -1,0 +1,26 @@
+trigger:
+  branches:
+    include:
+    - main
+  paths:
+    include:
+    - sql/*
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- script: |
+    sudo apt-get install sqlite3
+    sqlite3 --version
+  displayName: 'install sqlite3'
+
+- script:  |
+    for file in *.sql; do
+      echo -e "--> Testing $file ..."
+      cat $file | sqlite3 -echo -bail $file.db
+      if [[ ! -f $file.db || ! -s $file.db ]]; then  exit 1; fi
+      echo -e "--> OK!\n"
+    done
+  workingDirectory: sql
+  displayName: 'test sql scripts'

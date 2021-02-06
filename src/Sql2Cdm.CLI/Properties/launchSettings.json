@@ -1,0 +1,22 @@
+{
+  "profiles": {
+    "Command: file": {
+      "commandName": "Project",
+      "commandLineArgs": "file -i ./sql/customer.sql -o cdm-generated --timestamps -v 1.3.0 --override -l 1",
+      "workingDirectory": "../../"
+    },
+    "Command: db": {
+      "commandName": "Project",
+      "commandLineArgs": "db -o cdm-generated --schema-filter \"sales.*\" --alias MS_Description:description --connection-string \"Data Source=.;Initial Catalog=AdventureWorksLT2019;Integrated Security=True;\" --timestamps -v 1.3.0 --override -l 1",
+      "workingDirectory": "../../"
+    },
+    "Command: help": {
+      "commandName": "Project",
+      "commandLineArgs": "help"
+    },
+    "Command: version": {
+      "commandName": "Project",
+      "commandLineArgs": "version"
+    }
+  }
+}
